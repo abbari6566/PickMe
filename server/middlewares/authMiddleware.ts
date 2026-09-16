@@ -8,6 +8,7 @@ export async function authMiddleware(
   next: NextFunction,
 ) {
   const match = req.headers.authorization?.match(/^Bearer ([^\s]+)$/i);
+
   if (!match) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -28,7 +29,7 @@ export async function authMiddleware(
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true },
+      select: { id: true, isDriver: true },
     });
 
     if (!user) {

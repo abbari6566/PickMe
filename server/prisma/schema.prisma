@@ -23,7 +23,8 @@ model User {
   resetPasswordToken     String?
   resetPasswordExpiresAt DateTime?
   refreshTokens  RefreshToken[]
-  rides         Ride[]
+  rides         Ride[] @relation("PassengerRides")
+  acceptedRides Ride[] @relation("DriverRides")
   createdAt DateTime @default(now())
 }
 
@@ -36,9 +37,17 @@ model RefreshToken {
   expiresAt DateTime
 }
 
+enum RideStatus {
+  REQUESTED
+  ACCEPTED
+}
+
 model Ride {
   id             Int    @id @default(autoincrement())
   pickupLocation String
   userId         Int
-  user           User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User   @relation("PassengerRides", fields: [userId], references: [id], onDelete: Cascade)
+  driverId       Int?
+  driver         User?  @relation("DriverRides", fields: [driverId], references: [id], onDelete: Restrict)
+  status         RideStatus @default(REQUESTED)
 }

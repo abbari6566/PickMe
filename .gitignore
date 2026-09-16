@@ -9,3 +9,6 @@ coverage/
 Thumbs.db
 .agents
 .fallow
+
+postman
+.postman

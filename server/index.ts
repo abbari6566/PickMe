@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import { ServiceError } from "./utils/ServiceError.ts";
 import authRouter from "./routes/authRouter.ts";
 import passengerRouter from "./routes/passengerRouter.ts";
+import driverRouter from "./routes/driverRouter.ts";
 
 const app = express();
 app.use(
@@ -18,6 +19,7 @@ app.use(cookieParser());
 
 app.use("/api/auth", authRouter);
 app.use("/api/passenger", passengerRouter);
+app.use("/api/driver", driverRouter);
 
 const errorHandler: ErrorRequestHandler = (error, req, res, next) => {
   if (res.headersSent) return next(error);
